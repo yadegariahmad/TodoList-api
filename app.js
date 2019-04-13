@@ -23,15 +23,12 @@ app.use((error, _req, res) =>
 });
 
 connect(
-  'mongodb+srv://yadegariahmad:Seyah141374@cluster0-ue3bz.mongodb.net/test?retryWrites=true',
-  { useNewUrlParser: true })
+  'mongodb+srv://yadegariahmad:Seyah141374@cluster0-ue3bz.mongodb.net/Todo-app?retryWrites=true',
+  // { useNewUrlParser: true }
+  )
   .then(() =>
   {
     app.listen(8080);
     console.log('listening ...');
   })
   .catch(err => console.log(err));
-
-
-
-//"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe" --dbpath="c:\data\db"
