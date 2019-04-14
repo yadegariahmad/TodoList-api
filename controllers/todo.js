@@ -68,14 +68,22 @@ exports.createTodo = (req, res, next) =>
     });
 }
 
-exports.getTodo = (req, res, next) =>
+exports.toggleTodo = (req, res, next) =>
 {
-  const { todoId } = req.params.todoId;
-  User.findById(todoId)
+  const { todoId } = req.params;
+  Todo.findById(todoId)
     .then(todo =>
     {
       checkTodoAvalability(todo);
-      res.status(200).json({ message: 'Todo fetched.', todo });
+      checkAuthorization(todo, req.query.userId);
+
+      todo.completed = !todo.completed;
+      return todo.save();
+    })
+    .then(() =>
+    {
+      const respond = new respondModel({}, 200, 'Todo toggled!');
+      res.json(respond);
     })
     .catch(err =>
     {

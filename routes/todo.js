@@ -10,7 +10,7 @@ router.get('/getTodos', isAuth, todoController.getTodos);
 // POST /todo/todo
 router.post('/addTodo', isAuth, todoController.createTodo);
 
-router.get('/getTodo/:todoId', isAuth, todoController.getTodo);
+router.put('/toggleTodo/:todoId', isAuth, todoController.toggleTodo);
 
 router.put('/updateTodo', todoController.updateTodo);
 
