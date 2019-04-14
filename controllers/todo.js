@@ -1,5 +1,6 @@
 const Pagination = require('../util/pagination');
 const { errorHandler } = require('../util/misc');
+const respondModel = require('../util/responseModel');
 const Todo = require('../models/todo');
 const User = require('../models/user');
 
@@ -38,7 +39,7 @@ exports.createTodo = (req, res, next) =>
   todo.save()
     .then(() =>
     {
-      return User._findById(req.body.userId);
+      return User.findById(req.body.userId);
     })
     .then(user =>
     {
@@ -48,11 +49,13 @@ exports.createTodo = (req, res, next) =>
     })
     .then(() =>
     {
-      res.status(201).json({
-        message: 'Todo created successfully!',
-        todo,
-        creator: { _id: creator._id, name: creator.name }
-      });
+      const respond = new respondModel(
+        {
+          todoID: todo._id,
+          creator: { _id: creator._id, name: creator.name }
+        }, 201, 'Todo created successfully!');
+
+      res.json(respond);
     })
     .catch(err =>
     {

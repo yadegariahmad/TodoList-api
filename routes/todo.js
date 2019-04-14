@@ -5,15 +5,15 @@ const isAuth = require('../util/is-auth');
 const router = Router();
 
 // GET /todo/todos
-router.get('/todos', isAuth, todoController.getTodos);
+router.get('/getTodos', isAuth, todoController.getTodos);
 
 // POST /todo/todo
-router.post('/todo', isAuth, todoController.createTodo);
+router.post('/addTodo', isAuth, todoController.createTodo);
 
-router.get('/todo/:todoId', isAuth, todoController.getTodo);
+router.get('/getTodo/:todoId', isAuth, todoController.getTodo);
 
-router.put('/todo/:todoId', todoController.updateTodo);
+router.put('/updateTodo/:todoId', todoController.updateTodo);
 
-router.delete('/todo/:todoId', isAuth, todoController.deleteTodo);
+router.delete('/deleteTodo/:todoId', isAuth, todoController.deleteTodo);
 
 module.exports = router;
