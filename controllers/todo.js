@@ -101,7 +101,6 @@ exports.updateTodo = (req, res, next) =>
     .then(() =>
     {
       const respond = new respondModel({}, 200, 'Todo updated!');
-
       res.json(respond);
     })
     .catch(err =>
@@ -114,27 +113,28 @@ exports.updateTodo = (req, res, next) =>
 exports.deleteTodo = (req, res, next) =>
 {
   const todoId = req.params.todoId;
-  User.findById(todoId)
+  Todo.findById(todoId)
     .then(todo =>
     {
       checkTodoAvalability(todo);
       checkAuthorization(todo, req.query.userId);
 
       // Check logged in user
-      return User.findByIdAndRemove(todoId);
+      return Todo.findByIdAndRemove(todoId);
     })
     .then(() =>
     {
-      return User._findById(req.query.userId);
+      return User.findById(req.query.userId);
     })
     .then(user =>
     {
-      user.posts.pull(todoId);
+      user.todos.pull(todoId);
       return user.save();
     })
     .then(() =>
     {
-      res.status(200).json({ message: 'Deleted todo.' });
+      const respond = new respondModel({}, 200, 'Deleted todo.');
+      res.json(respond);
     })
     .catch(err =>
     {
