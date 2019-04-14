@@ -12,7 +12,7 @@ router.post('/addTodo', isAuth, todoController.createTodo);
 
 router.get('/getTodo/:todoId', isAuth, todoController.getTodo);
 
-router.put('/updateTodo/:todoId', todoController.updateTodo);
+router.put('/updateTodo', todoController.updateTodo);
 
 router.delete('/deleteTodo/:todoId', isAuth, todoController.deleteTodo);
 

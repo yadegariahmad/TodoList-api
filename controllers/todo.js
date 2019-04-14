@@ -86,21 +86,23 @@ exports.getTodo = (req, res, next) =>
 
 exports.updateTodo = (req, res, next) =>
 {
-  const { todoId } = req.params;
+  const { todoId } = req.body;
   const { content } = req.body;
 
-  User.findById(todoId)
+  Todo.findById(todoId)
     .then(todo =>
     {
       checkTodoAvalability(todo);
-      checkAuthorization(todo, req.query.userId);
+      checkAuthorization(todo, req.body.userId);
 
       todo.content = content;
       return todo.save();
     })
-    .then(result =>
+    .then(() =>
     {
-      res.status(200).json({ message: 'Todo updated!', todo: result });
+      const respond = new respondModel({}, 200, 'Todo updated!');
+
+      res.json(respond);
     })
     .catch(err =>
     {
