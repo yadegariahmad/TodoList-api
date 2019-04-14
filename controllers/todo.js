@@ -1,4 +1,3 @@
-const Pagination = require('../util/pagination');
 const { errorHandler } = require('../util/misc');
 const respondModel = require('../util/responseModel');
 const Todo = require('../models/todo');
@@ -7,17 +6,22 @@ const User = require('../models/user');
 exports.getTodos = (req, res, next) =>
 {
   const currentPage = req.query.page || 1;
-  const perPage = 8;
+  const perPage = 10;
+  let totalItems;
 
-  const _pagination = Pagination(Todo, currentPage, perPage);
-  _pagination.Response
+  Todo.find({ 'creator': req.query.userId })
+    .countDocuments()
+    .then(count =>
+    {
+      totalItems = count;
+      return Todo.find({ 'creator': req.query.userId })
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage);
+    })
     .then(todos =>
     {
-      res.status(200).json({
-        message: 'Fetched items successfully.',
-        todos: todos,
-        totalItems: _pagination.totalItems
-      });
+      const response = new respondModel({ todos, totalItems }, 200, 'Fetched items successfully.');
+      res.json(response);
     })
     .catch(err =>
     {
