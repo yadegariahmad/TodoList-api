@@ -23,12 +23,12 @@ app.use((error, _req, res) =>
 });
 
 connect(
-  'mongodb+srv://yadegariahmad:Seyah141374@cluster0-ue3bz.mongodb.net/Todo-app?retryWrites=true',
+  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-ue3bz.mongodb.net/Todo-app?retryWrites=true`,
   // { useNewUrlParser: true }
-  )
+)
   .then(() =>
   {
-    app.listen(8080);
+    app.listen(process.env.PORT || 8080);
     console.log('listening ...');
   })
   .catch(err => console.log(err));
