@@ -76,7 +76,6 @@ exports.login = (req, res, next) =>
           userId: loadedUser._id.toString()
         },
         'somesupersecretsecret',
-        { expiresIn: '1h' }
       );
 
       const respond = new respondModel({ token, userId: loadedUser._id.toString() }, 200, '');
