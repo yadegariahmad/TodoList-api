@@ -35,6 +35,6 @@ connect(
   .then(() =>
   {
     app.listen(process.env.PORT || 8080);
-    console.log('listening ...');
+    console.log('Listening ...');
   })
   .catch(err => console.log(err));
